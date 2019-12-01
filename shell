@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Directory containing this script
+path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+path="$(realpath "$path")"
+nix build -f "${path}/stdenv.nix" -o "${path}/stdenv"
+stdenv="$(realpath "${path}/stdenv")"
+env -i BUSYBOOTSTRAP_STDENV="$stdenv" "${stdenv}/bin/sh" "${path}/launcher.sh" sh "$@"
